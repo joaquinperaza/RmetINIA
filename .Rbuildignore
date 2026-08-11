@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitattributes$
+^data-raw$
+^README\.Rmd$
+^\.github$

@@ -1,0 +1,46 @@
+Package: RmetINIA
+Type: Package
+Title: Access the INIA Uruguay Agroclimatic Data Bank (GRAS)
+Version: 0.1.0
+Authors@R: c(
+    person("Joaquin", "Peraza", role = c("aut", "cre"),
+           email = "joaquin@peraza.uy"),
+    person("Instituto Nacional de Investigacion Agropecuaria (INIA), Unidad GRAS",
+           role = c("cph", "dtc"),
+           comment = "Source and copyright holder of the agroclimatic data and of the station/variable catalogue reproduced by this package")
+    )
+Description: Download daily agroclimatic observations and summary statistics
+    from the Banco de Datos Agroclimatico of INIA Uruguay
+    (Instituto Nacional de Investigacion Agropecuaria), served by the GRAS
+    unit at <https://gras.inia.uy>. Provides a tidy interface over the public
+    CSV export endpoint, with built-in catalogues of the six INIA weather
+    stations and the 53 available variables so that station and variable
+    identifiers can be discovered and auto-completed from R instead of being
+    looked up on the web form. The MIT licence covers the R code only. The
+    data retrieved, and the station and variable catalogue reproduced here,
+    belong to INIA and are governed by the GRAS terms of use, which require
+    that the GRAS website be cited explicitly as the source in any
+    publication, presentation or website, and which prohibit commercial
+    resale or modified redistribution without prior authorisation from INIA.
+    Call inia_terms() for the terms in full. INIA accepts no liability for
+    errors or defects in the data, nor for any action taken or omitted on the
+    basis of it.
+License: MIT + file LICENSE
+Encoding: UTF-8
+URL: https://www.inia.uy/gras/Clima/Banco-datos-agroclimatico,
+    https://gras.inia.uy
+Depends:
+    R (>= 4.1.0)
+Imports:
+    httr2 (>= 1.0.0),
+    utils,
+    stats
+Suggests:
+    testthat (>= 3.0.0),
+    rvest,
+    xml2,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2
