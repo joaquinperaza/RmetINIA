@@ -14,22 +14,23 @@ jobs:
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
-    # Linux-only by default, so this costs nothing on a free account whether the
-    # repository is public (Actions minutes are unlimited for public repos) or
-    # private (the free tier gives 2,000 minutes/month, and Linux is the 1x
-    # runner; macOS bills at 10x and Windows at 2x).
+    # One job: current R on Linux, the 1x-billed runner. Kept deliberately small
+    # so it is free on a public repository and barely dents the free tier's
+    # 2,000 minutes/month on a private one.
     #
-    # If the repository is public, or you have minutes to spare, uncomment the
-    # macOS and Windows rows below — this package is pure R, so cross-platform
-    # differences are limited to encoding and path handling, but those are worth
-    # covering given the accented Spanish text it handles.
+    # Each extra row below is one more parallel job. Uncomment as needed:
+    #   oldrel-1  catches use of features too new for people on the previous R
+    #   devel     warns before a new R release breaks the package
+    #   macos     / windows  cover encoding and path handling, which matter here
+    #             because of the accented Spanish text — but they bill at 10x
+    #             and 2x respectively on private repos.
     strategy:
       fail-fast: false
       matrix:
         config:
           - {os: ubuntu-latest,  r: 'release'}
-          - {os: ubuntu-latest,  r: 'oldrel-1'}
-          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          # - {os: ubuntu-latest,  r: 'oldrel-1'}
+          # - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           # - {os: macos-latest,   r: 'release'}
           # - {os: windows-latest, r: 'release'}
 
