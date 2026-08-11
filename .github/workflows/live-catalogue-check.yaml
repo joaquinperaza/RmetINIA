@@ -1,0 +1,65 @@
+# The station and variable catalogues are embedded in the package so it works
+# offline and can auto-complete without a network round trip. That copy can
+# drift if INIA adds a station or a variable. This job runs the live tests once
+# a week to notice, rather than waiting for a user to hit it.
+#
+# It is deliberately the only workflow permitted to contact gras.inia.uy, and it
+# runs on a single platform, once a week: the service is free and public, and
+# hammering it from CI would be a poor way to repay that.
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays, 06:17 UTC
+  workflow_dispatch:
+
+name: live-catalogue-check
+
+permissions: read-all
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RMETINIA_LIVE_TESTS: 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::testthat, any::rvest, any::xml2, local::.
+          needs: check
+
+      - name: Run tests against the live GRAS service
+        run: testthat::test_local(reporter = "summary")
+        shell: Rscript {0}
+
+      - name: Compare embedded catalogues with the live site
+        run: |
+          library(RmetINIA)
+          st_live <- inia_stations(refresh = TRUE)
+          v_live  <- inia_variables(refresh = TRUE)
+          drift <- c(
+            if (!setequal(st_live$id, inia_stations()$id))
+              "station ids differ from the embedded catalogue",
+            if (!setequal(st_live$name, inia_stations()$name))
+              "station names differ from the embedded catalogue",
+            if (!setequal(v_live$id, inia_variables()$id))
+              "variable ids differ from the embedded catalogue",
+            if (!setequal(v_live$label, inia_variables()$label))
+              "variable labels differ from the embedded catalogue"
+          )
+          if (length(drift)) {
+            stop("Embedded catalogue is out of date:\n  ",
+                 paste(drift, collapse = "\n  "),
+                 "\nUpdate .station_table() / .variable_table() in R/catalog.R.")
+          }
+          cat("Embedded catalogues match the live GRAS site.\n")
+        shell: Rscript {0}

@@ -4,9 +4,9 @@
   st <- st[order(st$id), ]
   packageStartupMessage(
     "RmetINIA ", utils::packageVersion("RmetINIA"),
-    " — Banco de Datos Agroclimaticos, INIA Uruguay (Unidad GRAS)\n\n",
-    paste(sprintf("  est = %d  %-6s %-40s from %s",
-                  st$id, st$code, st$name, st$first_date), collapse = "\n"),
+    " \u2014 Banco de Datos Agroclimaticos, INIA Uruguay (Unidad GRAS)\n\n",
+    paste(sprintf("  est = %d  %s %s from %s", st$id, .pad(st$code, 6),
+                  .pad(st$name, 40), st$first_date), collapse = "\n"),
     "\n\n",
     '  inia_daily("LE", "2024-01-01", "2024-01-31", vars = "precip")\n',
     "  inia_cheatsheet()   inia_variables()   inia_terms()\n\n",

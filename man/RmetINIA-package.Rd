@@ -23,7 +23,7 @@ inia_daily("LE", "2024-01-01", "2024-01-31",         # download
 ```
 }
 
-\section{Terms of use — read before publishing}{
+\section{Terms of use -- read before publishing}{
 
 The data is free for every type of user, but it is not public domain and it
 is not covered by this package's MIT licence, which applies to the R source

@@ -16,7 +16,7 @@ A named list mapping readable station slugs to the numeric ids the GRAS web
 API uses. Type `inia_station$` and press Tab to see all six with completion.
 }
 \details{
-Using this is optional — [inia_daily()] accepts `"LE"`, `"estanzuela"` or `2`
+Using this is optional -- [inia_daily()] accepts `"LE"`, `"estanzuela"` or `2`
 just as happily. It exists so that ids never have to be memorised or looked
 up on the website.
 }

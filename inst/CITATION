@@ -1,0 +1,38 @@
+citHeader(
+  paste(
+    "RmetINIA is only a client. When you publish anything derived from the data",
+    "it downloads, INIA's terms of use require you to cite the GRAS website",
+    "explicitly and clearly as the source: cite the data bank (first entry).",
+    "Cite the software as well only if the tooling itself is relevant."
+  )
+)
+
+bibentry(
+  bibtype  = "Misc",
+  key      = "inia-gras-bdac",
+  title    = "Banco de Datos Agroclimaticos",
+  author   = person("Unidad GRAS, Instituto Nacional de Investigacion Agropecuaria (INIA)"),
+  year     = format(Sys.Date(), "%Y"),
+  howpublished = "Instituto Nacional de Investigacion Agropecuaria, Uruguay",
+  url      = "https://www.inia.uy/gras/Clima/Banco-datos-agroclimatico",
+  note     = paste0("Accessed ", format(Sys.Date(), "%Y-%m-%d")),
+  textVersion = paste0(
+    "Unidad GRAS, Instituto Nacional de Investigacion Agropecuaria (INIA). ",
+    "Banco de Datos Agroclimaticos. Uruguay. ",
+    "https://www.inia.uy/gras/Clima/Banco-datos-agroclimatico ",
+    "(accessed ", format(Sys.Date(), "%Y-%m-%d"), ")."
+  )
+)
+
+bibentry(
+  bibtype = "Manual",
+  key     = "rmetinia",
+  title   = "RmetINIA: Access the INIA Uruguay Agroclimatic Data Bank (GRAS)",
+  author  = person("Joaquin", "Peraza"),
+  year    = "2026",
+  note    = "R package version 0.2.0",
+  textVersion = paste(
+    "Peraza, J. (2026). RmetINIA: Access the INIA Uruguay Agroclimatic Data",
+    "Bank (GRAS). R package version 0.2.0."
+  )
+)

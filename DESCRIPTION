@@ -1,7 +1,7 @@
 Package: RmetINIA
 Type: Package
 Title: Access the INIA Uruguay Agroclimatic Data Bank (GRAS)
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Joaquin", "Peraza", role = c("aut", "cre"),
            email = "joaquin@peraza.uy"),
@@ -41,6 +41,5 @@ Suggests:
     xml2,
     knitr,
     rmarkdown
-VignetteBuilder: knitr
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2

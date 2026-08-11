@@ -25,7 +25,7 @@ detects the encoding of the accented Spanish headers.}
 }
 \description{
 INIA's own guidance on the data bank page notes that files use the standard
-CSV conventions — a `.` decimal separator and UTF-8 text — which Microsoft
+CSV conventions -- a `.` decimal separator and UTF-8 text -- which Microsoft
 Excel does not always honour on a locale that expects `,`. This writes a file
 that opens correctly by double-click on any locale: UTF-8 with a byte order
 mark so Excel detects the encoding, `.` for decimals, and a separator you

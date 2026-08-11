@@ -31,7 +31,7 @@ inia_base_url <- function() {
 #      honest, self-identifying agent string instead.
 #
 # Requests are rate limited to be a polite client of a free public service.
-.inia_get <- function(path, query, timeout = 120) {
+.inia_get <- function(path, query, timeout = 120, allow_html = FALSE) {
   req <- httr2::request(paste0(inia_base_url(), path))
   req <- httr2::req_url_query(req, !!!query)
   req <- httr2::req_user_agent(req, .inia_user_agent())
@@ -61,10 +61,11 @@ inia_base_url <- function() {
 
   # The service answers invalid parameter combinations with a 200 OK HTML page
   # rather than an error status, so the payload has to be sniffed.
-  if (grepl("^\\s*<!doctype html|^\\s*<html", body, ignore.case = TRUE)) {
+  if (!allow_html &&
+      grepl("^\\s*<!doctype html|^\\s*<html", body, ignore.case = TRUE)) {
     stop(
       "The INIA GRAS server returned an HTML page instead of data.\n",
-      "  This normally means the query itself was rejected — usually an unknown\n",
+      "  This normally means the query itself was rejected \u2014 usually an unknown\n",
       "  station id, or a start date later than the end date.\n",
       "  URL: ", req$url,
       call. = FALSE

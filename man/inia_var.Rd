@@ -13,7 +13,7 @@ inia_var
 \description{
 A named list mapping the package's ASCII variable keys to the numeric ids the
 GRAS web API uses. Type `inia_var$` and press Tab to browse all 53 with
-completion — `inia_var$soil` narrows to the soil temperature probes,
+completion -- `inia_var$soil` narrows to the soil temperature probes,
 `inia_var$gdd` to the growing degree day bases, and so on.
 }
 \examples{

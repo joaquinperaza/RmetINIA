@@ -129,7 +129,7 @@ print.inia_catalog <- function(x, ...) {
   y <- as.data.frame(x)
   if (!is.null(y$description)) {
     y$description <- ifelse(nchar(y$description) > 46,
-                            paste0(substr(y$description, 1, 45), "…"),
+                            paste0(substr(y$description, 1, 45), "\u2026"),
                             y$description)
   }
   print.data.frame(y, right = FALSE, ...)
@@ -139,7 +139,7 @@ print.inia_catalog <- function(x, ...) {
 # Live refreshers -------------------------------------------------------------
 
 .form_html <- function() {
-  .inia_get("/consulta_bdagroclima/", query = list())
+  .inia_get("/consulta_bdagroclima/", query = list(), allow_html = TRUE)
 }
 
 .fetch_stations <- function() {

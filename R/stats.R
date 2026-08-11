@@ -3,7 +3,7 @@
 #' Returns the statistical report the GRAS query form produces for a single
 #' variable: count, mean, standard deviation, minimum, five percentiles, maximum
 #' and sum, computed by INIA over the requested period and broken down three
-#' ways at once — by year, by month and by ten-day period (decade).
+#' ways at once -- by year, by month and by ten-day period (decade).
 #'
 #' Unlike [inia_daily()], this endpoint accepts exactly one variable.
 #'
@@ -48,7 +48,7 @@ inia_stats <- function(est,
                        quiet = FALSE) {
   if (missing(est)) .abort_station("<missing>", .station_table(), "must be supplied")
   if (missing(variable)) {
-    stop("`variable` must be supplied — inia_stats() reports on one variable ",
+    stop("`variable` must be supplied \u2014 inia_stats() reports on one variable ",
          "at a time.\n  See inia_variables().", call. = FALSE)
   }
 

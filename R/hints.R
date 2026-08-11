@@ -21,7 +21,7 @@
 #' A named list mapping readable station slugs to the numeric ids the GRAS web
 #' API uses. Type `inia_station$` and press Tab to see all six with completion.
 #'
-#' Using this is optional — [inia_daily()] accepts `"LE"`, `"estanzuela"` or `2`
+#' Using this is optional -- [inia_daily()] accepts `"LE"`, `"estanzuela"` or `2`
 #' just as happily. It exists so that ids never have to be memorised or looked
 #' up on the website.
 #'
@@ -47,7 +47,7 @@ inia_station <- local({
 #'
 #' A named list mapping the package's ASCII variable keys to the numeric ids the
 #' GRAS web API uses. Type `inia_var$` and press Tab to browse all 53 with
-#' completion — `inia_var$soil` narrows to the soil temperature probes,
+#' completion -- `inia_var$soil` narrows to the soil temperature probes,
 #' `inia_var$gdd` to the growing degree day bases, and so on.
 #'
 #' @format A list of 53 integers, named by variable key.
@@ -88,6 +88,10 @@ print.inia_choices <- function(x, ...) {
 
 # Completion hook used by RStudio and by utils::rc.settings(). Returning the
 # names here is what makes `inia_var$<Tab>` list the keys.
+#
+# The generic lives in utils and must be imported, not merely referenced: S3
+# method registration happens at namespace load, when only base is attached.
+#' @importFrom utils .DollarNames
 #' @export
 .DollarNames.inia_choices <- function(x, pattern = "") {
   grep(pattern, names(x), value = TRUE)
@@ -106,14 +110,14 @@ inia_cheatsheet <- function() {
   st <- .station_table()
   vt <- .variable_table()
 
-  cat("RmetINIA — INIA Uruguay agroclimatic data bank\n")
+  cat("RmetINIA \u2014 INIA Uruguay agroclimatic data bank\n")
   cat(strrep("-", 68), "\n\n", sep = "")
 
   cat("STATIONS  (est = id | code | slug | name | fragment)\n")
   cat(sprintf("  %-3s %-6s %-40s %s\n", "id", "code", "name", "data from"))
   for (i in order(st$id)) {
-    cat(sprintf("  %-3d %-6s %-40s %s\n",
-                st$id[i], st$code[i], st$name[i], st$first_date[i]))
+    cat(sprintf("  %-3d %s %s %s\n", st$id[i], .pad(st$code[i], 6),
+                .pad(st$name[i], 40), st$first_date[i]))
   }
 
   cat("\nVARIABLES  (vars = id | key | name | fragment | category)\n")

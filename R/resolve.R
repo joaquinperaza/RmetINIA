@@ -9,21 +9,29 @@
 # The GRAS pages mix NFC and NFD accents, so combining marks are stripped as
 # well as precomposed ones.
 .ACCENTED <- paste0(
-  "áàäâãéèëê",
-  "íìïîóòöôõ",
-  "úùüûñç"
+  "\u00e1\u00e0\u00e4\u00e2\u00e3\u00e9\u00e8\u00eb\u00ea",
+  "\u00ed\u00ec\u00ef\u00ee\u00f3\u00f2\u00f6\u00f4\u00f5",
+  "\u00fa\u00f9\u00fc\u00fb\u00f1\u00e7"
 )
 .PLAIN <- "aaaaaeeeeiiiiooooouuuunc"
 
 .deaccent <- function(x) {
   x <- as.character(x)
-  x <- gsub("[̀-ͯ]", "", x)   # NFD: drop combining marks
+  x <- gsub("[\u0300-\u036f]", "", x)   # NFD: drop combining marks
   x <- tolower(x)
   chartr(.ACCENTED, .PLAIN, x)          # NFC: fold precomposed forms
 }
 
 .norm <- function(x) {
   gsub("[^a-z0-9]", "", .deaccent(x))
+}
+
+# sprintf's field widths count bytes, so accented station names ("Tacuarembo")
+# break column alignment in every message this package prints. Pad on display
+# width instead.
+.pad <- function(x, width) {
+  x <- as.character(x)
+  paste0(x, strrep(" ", pmax(0, width - nchar(x, type = "width"))))
 }
 
 .slugify <- function(x) {
@@ -33,8 +41,8 @@
 
 #' Resolve a station to its numeric id
 #'
-#' Turns whatever you have — an id, a station code, a slug, a full name or a
-#' fragment of one — into the integer `est` id the GRAS web API expects. Used
+#' Turns whatever you have -- an id, a station code, a slug, a full name or a
+#' fragment of one -- into the integer `est` id the GRAS web API expects. Used
 #' internally by [inia_daily()] and [inia_stats()]; exported because it is handy
 #' on its own, and because its error message is the quickest way to see the
 #' station list.
@@ -96,7 +104,8 @@ inia_station_id <- function(x) {
   stop(
     "Station ", encodeString(as.character(one), quote = '"'), " ", why, ".\n\n",
     "Pass an id, a code, a slug, or any part of the name:\n",
-    paste0(sprintf("  %-3d %-6s %-40s %s", st$id, st$code, st$name, st$slug),
+    paste0(sprintf("  %-3d %s %s %s", st$id, .pad(st$code, 6),
+                   .pad(st$name, 40), st$slug),
            collapse = "\n"),
     "\n\n  inia_stations()  for the same table as a data frame",
     call. = FALSE
@@ -163,9 +172,13 @@ inia_var_id <- function(x) {
                  grepl(key, .norm(vt$label), fixed = TRUE))
   if (length(hit) == 1) return(vt$id[hit])
   if (length(hit) > 1) {
+    shown <- vt$key[utils::head(hit, 8)]
+    more <- length(hit) - length(shown)
     .abort_var(one, vt, sprintf(
-      "is ambiguous: it matches %d variables (%s)",
-      length(hit), paste(vt$key[hit], collapse = ", ")))
+      "is ambiguous: it matches %d variables (%s%s).\n  Narrow it down with %s",
+      length(hit), paste(shown, collapse = ", "),
+      if (more > 0) sprintf(", and %d more", more) else "",
+      sprintf("inia_variables(%s)", encodeString(as.character(one), quote = '"'))))
   }
   .abort_var(one, vt, "does not match any variable")
 }

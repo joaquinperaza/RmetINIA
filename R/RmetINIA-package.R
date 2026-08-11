@@ -15,7 +15,7 @@
 #'            vars = c("precip", "tmax", "tmin"))
 #' ```
 #'
-#' @section Terms of use — read before publishing:
+#' @section Terms of use -- read before publishing:
 #' The data is free for every type of user, but it is not public domain and it
 #' is not covered by this package's MIT licence, which applies to the R source
 #' code only. INIA's conditions require in particular that:

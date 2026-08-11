@@ -180,12 +180,15 @@ inia_attribution <- function(lang = c("es", "en"), accessed = Sys.Date()) {
 #' inia_browse("query")
 #' }
 inia_browse <- function(what = c("databank", "query", "opendata")) {
-  what <- match.arg(what)
-  url <- switch(what,
+  url <- .inia_url(match.arg(what))
+  utils::browseURL(url)
+  invisible(url)
+}
+
+.inia_url <- function(what) {
+  switch(what,
     databank = "https://www.inia.uy/gras/Clima/Banco-datos-agroclimatico",
     query    = "https://gras.inia.uy/gras/es/ConsultasWebDBC/consulta_bdagroclima/",
     opendata = "https://catalogodatos.gub.uy/dataset/?q=inia"
   )
-  utils::browseURL(url)
-  invisible(url)
 }

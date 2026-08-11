@@ -42,7 +42,7 @@ A data frame with columns `period_type` (`"year"`, `"month"` or
 Returns the statistical report the GRAS query form produces for a single
 variable: count, mean, standard deviation, minimum, five percentiles, maximum
 and sum, computed by INIA over the requested period and broken down three
-ways at once — by year, by month and by ten-day period (decade).
+ways at once -- by year, by month and by ten-day period (decade).
 }
 \details{
 Unlike [inia_daily()], this endpoint accepts exactly one variable.

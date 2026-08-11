@@ -14,7 +14,7 @@
 #' The default shown in the signature for `est` is the full station list, so
 #' pressing Tab inside `inia_daily(est = )` in RStudio offers all six stations
 #' with their ids. `inia_station$` and `inia_var$` do the same for the other
-#' half of the problem — see [inia_station].
+#' half of the problem -- see [inia_station].
 #'
 #' ```
 #'  1 = INIA Las Brujas (LB)                          from 1972-07-01
@@ -41,7 +41,7 @@
 #'
 #' @param est Station: id, code, slug, name or name fragment. Vectors are
 #'   allowed; results for several stations are stacked. The default is the
-#'   station list itself, purely so that editors offer it as a completion — you
+#'   station list itself, purely so that editors offer it as a completion -- you
 #'   must supply a value.
 #' @param from,to Start and end date, as `Date` or as `"YYYY-MM-DD"`. `from`
 #'   defaults to the first day on record for the station, `to` to today. Dates
@@ -54,11 +54,11 @@
 #'   one column per variable.
 #' @param tidy_names If `TRUE` (default), name the columns with the package's
 #'   ASCII keys (`tmax`, `precip`). If `FALSE`, keep the server's Spanish
-#'   headers verbatim (`"Temp. Aire Maxima (ºC)"`).
+#'   headers verbatim (`"Temp. Aire Maxima (oC)"`).
 #' @param quiet Suppress progress and clamping messages.
 #'
 #' @return A data frame with columns `station_id`, `station` (the station code),
-#'   `date`, and one column per variable — or the long form if `long = TRUE`.
+#'   `date`, and one column per variable -- or the long form if `long = TRUE`.
 #'   Carries the attributes `attribution` (the required credit line),
 #'   `station_info`, `variables` (the catalogue rows actually returned),
 #'   `definitions` (INIA's own definitions of each variable), `empty_variables`
@@ -138,8 +138,10 @@ inia_daily <- function(est = c("1 = INIA Las Brujas (LB)",
   attr(out, "query") <- vapply(parts, function(p) p$query, character(1))
   rownames(out) <- NULL
 
+  # Deliberately not gated on `quiet`: silently returning fewer columns than
+  # were asked for is the failure mode this whole check exists to prevent.
   empties <- attr(out, "empty_variables")
-  if (length(empties) && !quiet) {
+  if (length(empties)) {
     warning("No data in this period for: ", paste(empties, collapse = "; "),
             ".\n  These variables were dropped by the server and are absent ",
             "from the result.\n  See attr(x, \"empty_variables\").",
@@ -253,8 +255,11 @@ inia_data <- inia_daily
 .as_date <- function(x, arg) {
   if (inherits(x, "Date")) return(x)
   if (inherits(x, "POSIXt")) return(as.Date(x))
-  out <- suppressWarnings(as.Date(as.character(x)))
-  if (is.na(out)) {
+  # as.Date() *errors* on an unrecognised format rather than returning NA, so
+  # the failure has to be caught to produce a message naming the argument.
+  out <- tryCatch(suppressWarnings(as.Date(as.character(x))),
+                  error = function(e) NA)
+  if (length(out) != 1 || is.na(out)) {
     stop("`", arg, "` = ", encodeString(as.character(x), quote = '"'),
          " is not a date. Use a Date object or \"YYYY-MM-DD\".", call. = FALSE)
   }

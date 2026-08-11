@@ -14,8 +14,8 @@ fragment(s). Numeric or character; vectors are allowed.}
 An integer vector of station ids.
 }
 \description{
-Turns whatever you have — an id, a station code, a slug, a full name or a
-fragment of one — into the integer `est` id the GRAS web API expects. Used
+Turns whatever you have -- an id, a station code, a slug, a full name or a
+fragment of one -- into the integer `est` id the GRAS web API expects. Used
 internally by [inia_daily()] and [inia_stats()]; exported because it is handy
 on its own, and because its error message is the quickest way to see the
 station list.

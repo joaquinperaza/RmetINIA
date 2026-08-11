@@ -4,7 +4,7 @@
 # then (optionally) two trailer sections in prose:
 #
 #   INIA La Estanzuela (LE)
-#   Fecha,Precip. Acumulada (mm),T. Media ((TM+Tm)/2) (ºC)
+#   Fecha,Precip. Acumulada (mm),T. Media ((TM+Tm)/2) (oC)
 #   2024-01-01,0.5,23.3
 #   ...
 #
@@ -112,7 +112,8 @@
       labels <- c(labels, r)
       defs <- c(defs, "")
     } else if (length(labels)) {
-      defs[length(defs)] <- trimws(paste(defs[length(defs)], r))
+      defs[length(defs)] <- trimws(gsub("\\s+", " ",
+                                        paste(defs[length(defs)], r)))
     }
   }
   if (!length(labels)) return(empty)

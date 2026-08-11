@@ -34,7 +34,7 @@ inia_data(
 \arguments{
 \item{est}{Station: id, code, slug, name or name fragment. Vectors are
 allowed; results for several stations are stacked. The default is the
-station list itself, purely so that editors offer it as a completion — you
+station list itself, purely so that editors offer it as a completion -- you
 must supply a value.}
 
 \item{from, to}{Start and end date, as `Date` or as `"YYYY-MM-DD"`. `from`
@@ -51,13 +51,13 @@ one column per variable.}
 
 \item{tidy_names}{If `TRUE` (default), name the columns with the package's
 ASCII keys (`tmax`, `precip`). If `FALSE`, keep the server's Spanish
-headers verbatim (`"Temp. Aire Maxima (ºC)"`).}
+headers verbatim (`"Temp. Aire Maxima (oC)"`).}
 
 \item{quiet}{Suppress progress and clamping messages.}
 }
 \value{
 A data frame with columns `station_id`, `station` (the station code),
-  `date`, and one column per variable — or the long form if `long = TRUE`.
+  `date`, and one column per variable -- or the long form if `long = TRUE`.
   Carries the attributes `attribution` (the required credit line),
   `station_info`, `variables` (the catalogue rows actually returned),
   `definitions` (INIA's own definitions of each variable), `empty_variables`
@@ -79,7 +79,7 @@ options ([inia_station_id()], [inia_var_id()]).
 The default shown in the signature for `est` is the full station list, so
 pressing Tab inside `inia_daily(est = )` in RStudio offers all six stations
 with their ids. `inia_station$` and `inia_var$` do the same for the other
-half of the problem — see [inia_station].
+half of the problem -- see [inia_station].
 
 ```
  1 = INIA Las Brujas (LB)                          from 1972-07-01
