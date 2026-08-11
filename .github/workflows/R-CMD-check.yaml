@@ -14,15 +14,24 @@ jobs:
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
+    # Linux-only by default, so this costs nothing on a free account whether the
+    # repository is public (Actions minutes are unlimited for public repos) or
+    # private (the free tier gives 2,000 minutes/month, and Linux is the 1x
+    # runner; macOS bills at 10x and Windows at 2x).
+    #
+    # If the repository is public, or you have minutes to spare, uncomment the
+    # macOS and Windows rows below — this package is pure R, so cross-platform
+    # differences are limited to encoding and path handling, but those are worth
+    # covering given the accented Spanish text it handles.
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,  r: 'release'}
           - {os: ubuntu-latest,  r: 'oldrel-1'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          # - {os: macos-latest,   r: 'release'}
+          # - {os: windows-latest, r: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
