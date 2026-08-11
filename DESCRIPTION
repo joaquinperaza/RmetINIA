@@ -33,8 +33,7 @@ Depends:
     R (>= 4.1.0)
 Imports:
     httr2 (>= 1.0.0),
-    utils,
-    stats
+    utils
 Suggests:
     testthat (>= 3.0.0),
     rvest,
