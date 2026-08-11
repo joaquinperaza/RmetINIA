@@ -1,5 +1,11 @@
 # RmetINIA
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/joaquinperaza/RmetINIA/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/joaquinperaza/RmetINIA/actions/workflows/R-CMD-check.yaml)
+[![live-catalogue-check](https://github.com/joaquinperaza/RmetINIA/actions/workflows/live-catalogue-check.yaml/badge.svg)](https://github.com/joaquinperaza/RmetINIA/actions/workflows/live-catalogue-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
 An R client for the **Banco de Datos Agroclimáticos** of INIA Uruguay
 (Instituto Nacional de Investigación Agropecuaria), served by the
 [Unidad GRAS](https://gras.inia.uy).
@@ -21,47 +27,100 @@ inia_daily("LE", "2024-01-01", "2024-01-31", vars = c("precip", "tmax", "tmin"))
 
 ## Installation
 
-The package is a plain source directory, so any of these work.
-
-**With devtools / remotes** (from the repository root):
-
-```r
-# install.packages("devtools")
-devtools::install("path/to/RmetINIA")
-```
-
-**From inside the package directory**, which also runs the documentation build:
-
-```r
-devtools::document()   # regenerate NAMESPACE and man/ after editing roxygen
-devtools::install()
-```
-
-**Without devtools**, using base R only:
-
-```r
-install.packages("path/to/RmetINIA", repos = NULL, type = "source")
-```
-
-**From the shell:**
-
-```bash
-R CMD INSTALL RmetINIA
-```
-
-**From GitHub**, once you have pushed the repository:
+Not on CRAN. Install straight from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("<user>/RmetINIA")
+remotes::install_github("joaquinperaza/RmetINIA")
 ```
 
-The only hard dependency is [httr2](https://httr2.r-lib.org). `rvest` and
-`xml2` are optional and needed only by `inia_variables(refresh = TRUE)`.
+Or with [pak](https://pak.r-lib.org), which resolves dependencies faster:
 
 ```r
-install.packages("httr2")            # required
-install.packages(c("rvest", "xml2")) # optional, for live catalogue refresh
+# install.packages("pak")
+pak::pak("joaquinperaza/RmetINIA")
+```
+
+`devtools::install_github("joaquinperaza/RmetINIA")` does the same thing —
+`devtools` re-exports it from `remotes`, so there is no reason to install the
+heavier package just for this.
+
+### Pinning a version
+
+`install_github()` takes a `user/repo@ref` string, where `ref` is any branch,
+tag or commit SHA:
+
+```r
+remotes::install_github("joaquinperaza/RmetINIA@main")     # default branch
+remotes::install_github("joaquinperaza/RmetINIA@v0.2.0")   # a release tag
+remotes::install_github("joaquinperaza/RmetINIA@36e839d")  # an exact commit
+```
+
+Pin to a tag or SHA in anything reproducible — analysis code, a Docker image, a
+paper's supplementary material. `@main` moves under you.
+
+### From a plain git URL
+
+`install_github()` uses the GitHub API. If that is blocked, or the repository is
+private and you authenticate over SSH, install from the git URL directly:
+
+```r
+remotes::install_git("https://github.com/joaquinperaza/RmetINIA.git")
+remotes::install_git("git@github.com:joaquinperaza/RmetINIA.git")
+
+# with a ref
+remotes::install_git("https://github.com/joaquinperaza/RmetINIA.git", ref = "v0.2.0")
+```
+
+This needs a `git` binary on `PATH`; `install_github()` does not.
+
+### Private repository
+
+If the repo is private, `install_github()` needs a personal access token with
+`repo` scope. Create one with `usethis::create_github_token()` and store it in
+your credential manager — do not paste it into a script:
+
+```r
+gitcreds::gitcreds_set()   # prompts for the token, stores it securely
+remotes::install_github("joaquinperaza/RmetINIA")
+```
+
+### From a local clone
+
+```bash
+git clone https://github.com/joaquinperaza/RmetINIA.git
+R CMD INSTALL RmetINIA
+```
+
+```r
+remotes::install_local("path/to/RmetINIA")
+install.packages("path/to/RmetINIA", repos = NULL, type = "source")  # base R
+```
+
+Working on the package itself:
+
+```r
+devtools::load_all()    # load without installing
+devtools::document()    # regenerate NAMESPACE and man/ after editing roxygen
+devtools::install()     # install from the current directory
+```
+
+### Dependencies
+
+The only hard dependency is [httr2](https://httr2.r-lib.org), and the installers
+above pull it in automatically. `rvest` and `xml2` are optional, needed only by
+`inia_variables(refresh = TRUE)`:
+
+```r
+install.packages(c("rvest", "xml2"))
+```
+
+### Checking it worked
+
+```r
+library(RmetINIA)
+packageVersion("RmetINIA")
+inia_cheatsheet()
 ```
 
 ---
