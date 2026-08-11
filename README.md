@@ -41,69 +41,11 @@ Or with [pak](https://pak.r-lib.org), which resolves dependencies faster:
 pak::pak("joaquinperaza/RmetINIA")
 ```
 
-`devtools::install_github("joaquinperaza/RmetINIA")` does the same thing —
-`devtools` re-exports it from `remotes`, so there is no reason to install the
-heavier package just for this.
-
-### Pinning a version
-
-`install_github()` takes a `user/repo@ref` string, where `ref` is any branch,
-tag or commit SHA:
-
+Or:
 ```r
-remotes::install_github("joaquinperaza/RmetINIA@main")     # default branch
-remotes::install_github("joaquinperaza/RmetINIA@v0.2.0")   # a release tag
-remotes::install_github("joaquinperaza/RmetINIA@36e839d")  # an exact commit
+devtools::install_github("joaquinperaza/RmetINIA")
 ```
 
-Pin to a tag or SHA in anything reproducible — analysis code, a Docker image, a
-paper's supplementary material. `@main` moves under you.
-
-### From a plain git URL
-
-`install_github()` uses the GitHub API. If that is blocked, or the repository is
-private and you authenticate over SSH, install from the git URL directly:
-
-```r
-remotes::install_git("https://github.com/joaquinperaza/RmetINIA.git")
-remotes::install_git("git@github.com:joaquinperaza/RmetINIA.git")
-
-# with a ref
-remotes::install_git("https://github.com/joaquinperaza/RmetINIA.git", ref = "v0.2.0")
-```
-
-This needs a `git` binary on `PATH`; `install_github()` does not.
-
-### Private repository
-
-If the repo is private, `install_github()` needs a personal access token with
-`repo` scope. Create one with `usethis::create_github_token()` and store it in
-your credential manager — do not paste it into a script:
-
-```r
-gitcreds::gitcreds_set()   # prompts for the token, stores it securely
-remotes::install_github("joaquinperaza/RmetINIA")
-```
-
-### From a local clone
-
-```bash
-git clone https://github.com/joaquinperaza/RmetINIA.git
-R CMD INSTALL RmetINIA
-```
-
-```r
-remotes::install_local("path/to/RmetINIA")
-install.packages("path/to/RmetINIA", repos = NULL, type = "source")  # base R
-```
-
-Working on the package itself:
-
-```r
-devtools::load_all()    # load without installing
-devtools::document()    # regenerate NAMESPACE and man/ after editing roxygen
-devtools::install()     # install from the current directory
-```
 
 ### Dependencies
 
